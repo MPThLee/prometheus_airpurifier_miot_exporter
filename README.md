@@ -1,21 +1,24 @@
-# Prometheus exporter for Xiaomi Smartmi Air Humidifier 2
+# Prometheus exporter for Xiaomi Air Purifier MIOT Varient
 
-![Docker Pulls](img/grafana.png)
+![Grafana Dashboard](img/grafana.png)
 
 ## Get device token
-
 Use instructions: [https://github.com/jghaanstra/com.xiaomi-miio/blob/master/docs/obtain_token.md](https://github.com/jghaanstra/com.xiaomi-miio/blob/master/docs/obtain_token.md)
 
 Or just install patched app: [http://www.kapiba.ru/2017/11/mi-home.html](http://www.kapiba.ru/2017/11/mi-home.html)
 
+## `--model` Argument.
+Use `--model` argument for pass unsupported model treat as another model.
+
+ex) Air Purifier 4 with `--model zhimi.airp.va2` (Air Purifier 4 Pro. It completely compatible but miio 0.5.x supports only 4 Pro.)
+
 ## Run with Docker
-
 ```bash
-docker run -d --name prometheus_humidifier -p 8000:8000 -e "TOKEN=xxxxxxxx" -e "IP=xx.xx.xx.xx" byumov/prometheus_humidifier
+docker run -d --name prometheus_humidifier -p 8000:8000 -e "TOKEN=xxxxxxxx" -e "IP=xx.xx.xx.xx" ghcr.io/MPThLee/prometheus_airpurifier_miot_exporter
 ```
+Doesn't work with `--model` argument.
 
-## Docker Hub
+## Container registry
+![Build](https://github.com/MPThLee/prometheus_airpurifier_miot_exporter/actions/workflows/build-docker.yml/badge.svg)
 
-![Docker Pulls](https://img.shields.io/docker/pulls/byumov/prometheus_humidifier.svg) ![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/byumov/prometheus_humidifier.svg) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/byumov/prometheus_humidifier.svg)
-
-[https://hub.docker.com/r/byumov/prometheus_humidifier](https://hub.docker.com/r/byumov/prometheus_humidifier)
+[https://ghcr.io/MPThLee/prometheus_airpurifier_miot_exporter](https://ghcr.io/MPThLee/prometheus_airpurifier_miot_exporter)
