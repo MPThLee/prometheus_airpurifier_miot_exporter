@@ -1,4 +1,4 @@
-# Prometheus exporter for Xiaomi Air Purifier MIOT Varient
+# Prometheus exporter for Xiaomi Air Purifier MIOT varient
 
 ![Grafana Dashboard](img/grafana.png)
 
@@ -10,7 +10,19 @@ Or just install patched app: [http://www.kapiba.ru/2017/11/mi-home.html](http://
 ## `--model` Argument.
 Use `--model` argument for pass unsupported model treat as another model.
 
-ex) Air Purifier 4 with `--model zhimi.airp.va2` (Air Purifier 4 Pro. It completely compatible but miio 0.5.x supports only 4 Pro.)
+ex) Air Purifier 4 with `--model zhimi.airp.va2` (Air Purifier 4 Pro. It's completely compatible with 4 series but miio 0.5.x supports only 4 Pro.)
+
+## Run with command-line
+```bash
+# install dependencies
+python -m pip install -r requirements.txt
+
+# run server
+python ./run_server.py --ip xx.xx.xx.xx --token xxxxxxxx --port 8000
+
+# if miio doesn't support your model, try override
+python ./run_server.py --ip xx.xx.xx.xx --token xxxxxxxx --port 8000 --model zhimi.airp.va2
+```
 
 ## Run with Docker
 ```bash
