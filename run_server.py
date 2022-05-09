@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#! /usr/bin/env python3
 from miio import airpurifier_miot
 from prometheus_client import Gauge
 import prometheus_client
@@ -16,6 +16,11 @@ def trySet(obj, value, note="Default"):
     except:
         log.error(f"Can't set data (%s)" % (note))
 
+def trySetBool(obj, value, note="Default"):
+    if value is None:
+        log.erorr(f"Can't set data (%s)" % (note))
+        return
+    trySet(obj, 1 if value else 0, note)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -59,11 +64,7 @@ def main():
         trySet(filter_life_remaining, status.filter_life_remaining, "filter_remaining")
         trySet(filter_left_time, status.filter_left_time, "filter_left_time")
         trySet(filter_hours_used, status.filter_hours_used, "filter_hours_used")
-
-        if status.is_on:
-            power.set(1)
-        else:
-            power.set(0)
+        trySetBool(power, status.power, "power")
 
         time.sleep(5)
 
