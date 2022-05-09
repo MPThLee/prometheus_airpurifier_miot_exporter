@@ -2,6 +2,8 @@
 
 ![Grafana Dashboard](img/grafana.png)
 
+Forked from [byumov/prometheus_humidifier_exporter](https://github.com/byumov/prometheus_humidifier_exporter)
+
 ## Get device token
 Use instructions: [https://github.com/jghaanstra/com.xiaomi-miio/blob/master/docs/obtain_token.md](https://github.com/jghaanstra/com.xiaomi-miio/blob/master/docs/obtain_token.md)
 
