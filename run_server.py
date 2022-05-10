@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 from miio import airpurifier_miot
-from prometheus_client import Gauge
+from prometheus_client import Gauge as PGauge
 import prometheus_client
 import logging
 import time
@@ -10,17 +10,21 @@ logging.basicConfig()
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
-def trySet(obj, value, note="Default"):
-    try:
-        obj.set(value)
-    except:
-        log.error(f"Can't set data (%s)" % (note))
+class Gauge(PGauge):
+    def __init__(self, name, doc):
+        super().__init__(name, doc)
 
-def trySetBool(obj, value, note="Default"):
-    if value is None:
-        log.erorr(f"Can't set data (%s)" % (note))
-        return
-    trySet(obj, 1 if value else 0, note)
+    def trySet(self, value, note="Default"):
+        try:
+            self.set(value)
+        except:
+            log.error(f"Can't set data (%s)" % (note))
+
+    def trySetBool(self, value, note="Default"):
+        if value is None:
+            log.erorr(f"Can't set data (%s)" % (note))
+            return
+        self.trySet(1 if value else 0, note)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -57,14 +61,14 @@ def main():
         #    log.error("Can't get data from device")
         #    continue
 
-        trySet(temperature, status.temperature, "temperature:")
-        trySet(humidity, status.humidity, "humidity")
-        trySet(aqi, status.aqi, "aqi")
-        trySet(fan_speed, status.motor_speed, "moter_speed")
-        trySet(filter_life_remaining, status.filter_life_remaining, "filter_remaining")
-        trySet(filter_left_time, status.filter_left_time, "filter_left_time")
-        trySet(filter_hours_used, status.filter_hours_used, "filter_hours_used")
-        trySetBool(power, status.power, "power")
+        temperature.trySet(status.temperature, "temperature")
+        humidity.trySet(status.humidity, "humidity")
+        aqi.trySet(status.aqi, "aqi")
+        fan_speed.trySet(status.motor_speed, "moter_speed")
+        filter_life_remaining.trySet(status.filter_life_remaining, "filter_remaining")
+        filter_left_time.trySet(status.filter_left_time, "filter_left_time")
+        filter_hours_used.trySet(status.filter_hours_used, "filter_hours_used")
+        power.trySetBool(status.power, "power")
 
         time.sleep(5)
 
