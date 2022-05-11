@@ -68,7 +68,7 @@ def main():
         filter_life_remaining.trySet(status.filter_life_remaining, "filter_remaining")
         filter_left_time.trySet(status.filter_left_time, "filter_left_time")
         filter_hours_used.trySet(status.filter_hours_used, "filter_hours_used")
-        power.trySetBool(status.power, "power")
+        power.trySetBool(status.is_on, "power")
 
         time.sleep(5)
 
