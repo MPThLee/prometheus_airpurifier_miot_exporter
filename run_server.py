@@ -32,6 +32,7 @@ def main():
     parser.add_argument('--token', help='token', required=True)
     parser.add_argument('--port', help='prometheus port', required=True)
     parser.add_argument('--model', help='miot model, use for unsupported.')
+    parser.add_argument('--sleep', help='sleep time, in seconds. (default: 10)', default=10)
     args = parser.parse_args()
 
     airpurifier = airpurifier_miot.AirPurifierMiot(args.ip, args.token, model=args.model)
@@ -49,7 +50,7 @@ def main():
     prometheus_client.start_http_server(int(args.port))
     log.info("Server started at port {}".format(args.port))
 
-    # update metrics every 5 sec
+    # update metrics every 10 (default) sec
     while True:
         try:
             status = airpurifier.status()
@@ -70,7 +71,7 @@ def main():
         filter_hours_used.trySet(status.filter_hours_used, "filter_hours_used")
         power.trySetBool(status.is_on, "power")
 
-        time.sleep(5)
+        time.sleep(args.sleep)
 
 
 if __name__ == '__main__':
