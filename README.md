@@ -28,7 +28,7 @@ python ./run_server.py --ip xx.xx.xx.xx --token xxxxxxxx --port 8000 --model zhi
 
 ## Run with Docker
 ```bash
-docker run -d --name prometheus_humidifier -p 8000:8000 -e "TOKEN=xxxxxxxx" -e "IP=xx.xx.xx.xx" mpthlee/prometheus_airpurifier_miot_exporter
+docker run -d --name prometheus_airpurifier -p 8000:8000 -e "TOKEN=xxxxxxxx" -e "IP=xx.xx.xx.xx" mpthlee/prometheus_airpurifier_miot_exporter
 ```
 Doesn't work with `--model` argument.
 
