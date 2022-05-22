@@ -22,7 +22,7 @@ class Gauge(PGauge):
 
     def trySetBool(self, value, note="Default"):
         if value is None:
-            log.erorr(f"Can't set data (%s)" % (note))
+            log.error(f"Can't set data (%s)" % (note))
             return
         self.trySet(1 if value else 0, note)
 
