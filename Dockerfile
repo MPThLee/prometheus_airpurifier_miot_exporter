@@ -1,4 +1,4 @@
-FROM python:3.11-alpine
+FROM python:3.11.3-alpine
 COPY run_server.py requerements.txt /app/
 RUN apk add --update --no-cache gcc musl-dev libffi-dev openssl-dev && \
     rm -rf /var/cache/apk/* && \
