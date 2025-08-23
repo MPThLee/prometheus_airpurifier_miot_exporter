@@ -33,7 +33,7 @@ jobs:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
     - name: Build a Docker image
       run: docker build -t mpthlee/prometheus_airpurifier_miot_exporter .
     - name: Run Snyk to check Docker image for vulnerabilities
