@@ -1,2 +1,2 @@
-python-miio
-prometheus_client
+python-miio==0.5.11
+prometheus_client==0.14.1
