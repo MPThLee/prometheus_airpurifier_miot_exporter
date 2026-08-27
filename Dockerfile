@@ -1,9 +1,13 @@
-FROM python:3.10-alpine
-COPY run_server.py requerements.txt /app/
-RUN apk add --update --no-cache gcc musl-dev libffi-dev openssl-dev && \
-    rm -rf /var/cache/apk/* && \
-    pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r /app/requerements.txt && \
+FROM python:3.10-slim-bookworm AS builder
+COPY requerements.txt /build/
+RUN apt-get update && \
+    apt-get install --yes --no-install-recommends build-essential && \
+    pip wheel --no-cache-dir --wheel-dir /wheels -r /build/requerements.txt
+
+FROM python:3.10-slim-bookworm
+COPY --from=builder /wheels /wheels
+COPY run_server.py /app/
+RUN pip install --no-cache-dir /wheels/* && \
     python -c "from miio import airpurifier_miot" && \
-    pip cache purge
-ENTRYPOINT python /app/run_server.py --ip $IP --port 8000 --token $TOKEN
+    rm -rf /wheels
+ENTRYPOINT ["/bin/sh", "-c", "python /app/run_server.py --ip $IP --port 8000 --token $TOKEN"]
