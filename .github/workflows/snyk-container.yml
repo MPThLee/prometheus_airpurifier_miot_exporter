@@ -33,14 +33,14 @@ jobs:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - name: Build a Docker image
       run: docker build -t mpthlee/prometheus_airpurifier_miot_exporter .
     - name: Run Snyk to check Docker image for vulnerabilities
       # Snyk can be used to break the build when it detects vulnerabilities.
       # In this case we want to upload the issues to GitHub Code Scanning
       continue-on-error: true
-      uses: snyk/actions/docker@cdb760004ba9ea4d525f2e043745dfe85bb9077e
+      uses: snyk/actions/docker@12140f4059e244892ae643824a95459a102120dd
       env:
         # In order to use the Snyk Action you will need to have a Snyk API token.
         # More details in https://github.com/snyk/actions#getting-your-snyk-token
@@ -50,6 +50,6 @@ jobs:
         image: mpthlee/prometheus_airpurifier_miot_exporter
         args: --file=Dockerfile
     - name: Upload result to GitHub Code Scanning
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@v4
       with:
         sarif_file: snyk.sarif
