@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-from miio import airpurifier_miot
+from miio import AirPurifierMiot
 from prometheus_client import Gauge as PGauge
 import prometheus_client
 import logging
@@ -35,7 +35,7 @@ def main():
     parser.add_argument('--sleep', help='sleep time, in seconds. (default: 10)', default=10)
     args = parser.parse_args()
 
-    airpurifier = airpurifier_miot.AirPurifierMiot(args.ip, args.token, model=args.model)
+    airpurifier = AirPurifierMiot(args.ip, args.token, model=args.model)
 
     temperature = Gauge('airpurifier_temp', 'temp, C')
     humidity = Gauge('airpurifier_humidity', 'humidity')
@@ -55,8 +55,9 @@ def main():
         try:
             status = airpurifier.status()
             log.debug(status)
-        except:
-            log.error("Can't get information from device")
+        except Exception as error:
+            log.error("Can't get information from device: %s", error)
+            time.sleep(args.sleep)
             continue
         #if (status.temperature is None):
         #    log.error("Can't get data from device")

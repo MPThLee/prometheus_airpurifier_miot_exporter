@@ -8,6 +8,6 @@ FROM python:3.10-slim-bookworm
 COPY --from=builder /wheels /wheels
 COPY run_server.py /app/
 RUN pip install --no-cache-dir /wheels/* && \
-    python -c "from miio import airpurifier_miot" && \
+    python -c "from miio import AirPurifierMiot" && \
     rm -rf /wheels
 ENTRYPOINT ["/bin/sh", "-c", "python /app/run_server.py --ip $IP --port 8000 --token $TOKEN"]
